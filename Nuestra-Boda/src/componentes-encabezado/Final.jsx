@@ -3,14 +3,79 @@ import React from "react";
 import { motion } from "framer-motion";
 
 // ==========================================
-// INFORMACIÓN EDITABLE - WEDLY PLUS
+// INFORMACIÓN EDITABLE - WEDLY
 // ==========================================
 
-const imagenFinal = "/finalboda.webp";
+const CONFIG = {
+  imagenLaptop: "/finallaptop.png",
+  imagenCelular: "/finalcelular.png",
 
-const iniciales = {
-  primera: "A",
-  segunda: "D",
+  descripcion:
+    "Dioselin y Omar - ¡Te esperamos!",
+
+  // ========================================
+  // AJUSTES DE IMAGEN PARA LAPTOP
+  // ========================================
+
+  laptop: {
+    // POSICIÓN HORIZONTAL Y VERTICAL
+    // 50% 50% = centrada
+    // 50% 30% = hacia arriba
+    // 50% 70% = hacia abajo
+    // 30% 50% = hacia la derecha
+    // 70% 50% = hacia la izquierda
+
+    positionX: "50%",
+    positionY: "20%",
+
+    // ZOOM DE LA IMAGEN
+    // 1 = tamaño normal
+    // 1.1 = 10% más grande
+    // 0.9 = 10% más pequeña
+
+    escala: 1,
+
+    // cover = llena toda la pantalla
+    // contain = muestra toda la imagen
+    ajuste: "cover",
+  },
+
+  // ========================================
+  // AJUSTES DE IMAGEN PARA CELULAR
+  // ========================================
+
+  celular: {
+    positionX: "50%",
+    positionY: "50%",
+    escala: 1,
+    ajuste: "cover",
+  },
+};
+
+// ==========================================
+// ANIMACIÓN DE ENTRADA
+// ==========================================
+
+const animacion = {
+  initial: {
+    opacity: 0,
+    y: 20,
+  },
+
+  whileInView: {
+    opacity: 1,
+    y: 0,
+  },
+
+  viewport: {
+    once: true,
+    amount: 0.15,
+  },
+
+  transition: {
+    duration: 1.2,
+    ease: [0.22, 1, 0.36, 1],
+  },
 };
 
 // ==========================================
@@ -20,106 +85,85 @@ const iniciales = {
 const FinalBoda = () => {
   return (
     <section
+      id="final-boda"
       className="
         relative
         w-full
-        min-h-screen
+        h-[100svh]
         overflow-hidden
-        bg-[#4A141D]
+        bg-[#F8F1EB]
       "
+      aria-label={CONFIG.descripcion}
     >
-      {/* FOTOGRAFÍA DE FONDO */}
-      <img
-        src={imagenFinal}
-        alt="Fotografía final de los novios"
-        className="
-          absolute inset-0
-          h-full w-full
-          object-cover
-          object-center
-        "
-      />
+      {/* ======================================
+          IMAGEN PARA CELULAR
+      ====================================== */}
 
-      {/* DEGRADADO INFERIOR PARA LAS INICIALES */}
-      <div
-        className="
-          pointer-events-none
-          absolute inset-0
-          bg-gradient-to-t
-          from-black/65
-          via-black/10
-          to-transparent
-        "
-      />
-
-      {/* INICIALES EN LA PARTE INFERIOR */}
       <motion.div
-        initial={{
-          opacity: 0,
-          y: 35,
-        }}
-        whileInView={{
-          opacity: 1,
-          y: 0,
-        }}
-        viewport={{ once: true }}
-        transition={{
-          duration: 1.2,
-          ease: [0.22, 1, 0.36, 1],
-        }}
+        {...animacion}
         className="
           absolute
-          bottom-12 sm:bottom-16
-          left-0 right-0
-          z-10
-          flex flex-col
-          items-center
-          justify-center
-          px-5
-          text-center
+          inset-0
+          block
+          md:hidden
+          overflow-hidden
         "
       >
-        {/* ADORNO SUPERIOR */}
-        <div
+        <img
+          src={CONFIG.imagenCelular}
+          alt={CONFIG.descripcion}
           className="
-            mb-6
-            h-px w-20
-            bg-[#F4E8DD]/80
+            w-full
+            h-full
           "
+          style={{
+            objectFit: CONFIG.celular.ajuste,
+
+            objectPosition: `
+              ${CONFIG.celular.positionX}
+              ${CONFIG.celular.positionY}
+            `,
+
+            transform: `scale(${CONFIG.celular.escala})`,
+          }}
+          loading="lazy"
+          decoding="async"
         />
+      </motion.div>
 
-        {/* INICIALES */}
-        <h2
-          className="
-            font-playfair
-            text-6xl sm:text-7xl md:text-8xl
-            font-normal
-            tracking-[0.08em]
-            text-[#F8F2ED]
-            drop-shadow-[0_4px_15px_rgba(0,0,0,0.65)]
-          "
-        >
-          {iniciales.primera}
-          <span
-            className="
-              mx-3 sm:mx-5
-              font-cursiveDancing
-              font-normal
-              text-[#F4E8DD]
-            "
-          >
-            &
-          </span>
-          {iniciales.segunda}
-        </h2>
+      {/* ======================================
+          IMAGEN PARA LAPTOP Y COMPUTADORA
+      ====================================== */}
 
-        {/* ADORNO INFERIOR */}
-        <div
+      <motion.div
+        {...animacion}
+        className="
+          absolute
+          inset-0
+          hidden
+          md:block
+          overflow-hidden
+        "
+      >
+        <img
+          src={CONFIG.imagenLaptop}
+          alt={CONFIG.descripcion}
           className="
-            mt-6
-            h-px w-20
-            bg-[#F4E8DD]/80
+            w-full
+            h-full
           "
+          style={{
+            objectFit: CONFIG.laptop.ajuste,
+
+            objectPosition: `
+              ${CONFIG.laptop.positionX}
+              ${CONFIG.laptop.positionY}
+            `,
+
+            transform: `scale(${CONFIG.laptop.escala})`,
+          }}
+          loading="lazy"
+          decoding="async"
         />
       </motion.div>
     </section>

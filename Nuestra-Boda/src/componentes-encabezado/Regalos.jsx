@@ -1,185 +1,851 @@
 
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useEffect } from "react";
+import {
+  motion,
+  AnimatePresence,
+} from "framer-motion";
 
-const Regalos = () => {
-  const [mostrarModal, setMostrarModal] = useState(false);
-  const [copiado, setCopiado] = useState(false);
+import {
+  Gift,
+  Landmark,
+  Copy,
+  Check,
+  X,
+  Heart,
+  Flower2,
+} from "lucide-react";
 
-  const copiarCuenta = () => {
-    navigator.clipboard.writeText("1234 5678 9012 3456");
-    setCopiado(true);
+// ==========================================
+// INFORMACIÓN EDITABLE - WEDLY
+// ==========================================
 
-    setTimeout(() => {
+const CONFIG = {
+  subtitulo: "Con mucho cariño",
+  titulo: "Mesa de regalos",
+
+  descripcion:
+    "Tu presencia es nuestro mejor regalo. Si deseas tener un detalle con nosotros, te compartimos estas opciones.",
+
+  regalo: {
+    titulo: "Regalo o sobre",
+    descripcion:
+      "Si deseas obsequiarnos un regalo físico o un sobre, podrás entregarlo el día de nuestra celebración.",
+  },
+
+  transferencia: {
+    titulo: "Transferencia bancaria",
+    descripcion:
+      "Si lo prefieres, puedes realizar una transferencia bancaria como muestra de cariño.",
+
+    banco: "BBVA",
+
+    // CLABE de 18 dígitos
+    clabe: "012839015044371981",
+
+    // NOMBRE PROVISIONAL - CAMBIAR
+    titular: "María González López",
+  },
+
+  fraseFinal:
+    "¡Gracias por ser parte de nuestra historia!",
+};
+
+// ==========================================
+// PALETA CHATEAU ROSE
+// ==========================================
+
+const COLORES = {
+  dustyRose: "#D9B5AD",
+  vintageMauve: "#AD898D",
+  englishRose: "#DAB9AD",
+  champagne: "#E8DECE",
+  roseGold: "#C4937E",
+  marfil: "#F8F1EB",
+  texto: "#654A48",
+};
+
+// ==========================================
+// ORNAMENTO CLÁSICO
+// ==========================================
+
+const Ornamento = ({ ancho = "w-16" }) => (
+  <div
+    className="
+      flex
+      items-center
+      justify-center
+      gap-3
+    "
+    aria-hidden="true"
+  >
+    <span
+      className={`${ancho} h-px`}
+      style={{
+        backgroundColor: COLORES.roseGold,
+      }}
+    />
+
+    <span
+      className="text-xl leading-none"
+      style={{
+        color: COLORES.roseGold,
+      }}
+    >
+      ❧
+    </span>
+
+    <span
+      className={`${ancho} h-px`}
+      style={{
+        backgroundColor: COLORES.roseGold,
+      }}
+    />
+  </div>
+);
+
+// ==========================================
+// COMPONENTE PRINCIPAL
+// ==========================================
+
+export default function Regalos() {
+  const [mostrarModal, setMostrarModal] =
+    useState(false);
+
+  const [copiado, setCopiado] =
+    useState(false);
+
+  // ========================================
+  // COPIAR CLABE
+  // ========================================
+
+  const copiarClabe = async () => {
+    try {
+      await navigator.clipboard.writeText(
+        CONFIG.transferencia.clabe
+      );
+
+      setCopiado(true);
+
+      setTimeout(() => {
+        setCopiado(false);
+      }, 2500);
+    } catch (error) {
+      console.error(
+        "No se pudo copiar la CLABE:",
+        error
+      );
+
       setCopiado(false);
-    }, 2000);
+    }
   };
 
+  // ========================================
+  // BLOQUEAR SCROLL AL ABRIR MODAL
+  // ========================================
+
+  useEffect(() => {
+    if (!mostrarModal) return;
+
+    const scrollAnterior =
+      document.body.style.overflow;
+
+    document.body.style.overflow = "hidden";
+
+    const cerrarConEscape = (event) => {
+      if (event.key === "Escape") {
+        setMostrarModal(false);
+      }
+    };
+
+    window.addEventListener(
+      "keydown",
+      cerrarConEscape
+    );
+
+    return () => {
+      document.body.style.overflow =
+        scrollAnterior;
+
+      window.removeEventListener(
+        "keydown",
+        cerrarConEscape
+      );
+    };
+  }, [mostrarModal]);
+
   return (
-    <section className="w-full bg-[#4A141D] py-24 px-5 overflow-hidden">
-      <motion.div
-        initial={{ opacity: 0, y: 60 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.9 }}
-        viewport={{ once: true }}
+    <>
+      {/* ======================================
+          SECCIÓN MESA DE REGALOS
+      ====================================== */}
+
+      <section
+        id="regalos"
         className="
-          max-w-5xl mx-auto
-          bg-[#F4E8DD]
-          rounded-tl-[4rem]
-          rounded-br-[4rem]
-          rounded-tr-2xl
-          rounded-bl-2xl
-          border border-[#B88A8A]/35
-          shadow-[0_25px_70px_rgba(0,0,0,0.25)]
+          relative
+          w-full
           overflow-hidden
+          px-4
+          py-20
+          sm:px-8
+          sm:py-28
+          lg:py-32
         "
+        style={{
+          backgroundColor: COLORES.marfil,
+        }}
       >
-        <div className="px-8 py-16 sm:px-14 text-center">
-          <p className="uppercase tracking-[.35em] text-[#B88A8A] text-sm font-semibold">
-            Con cariño
-          </p>
+        {/* MARCO EXTERIOR */}
 
-          <h2 className="font-playfair text-[#4A141D] text-5xl mt-4">
-            Regalos
-          </h2>
+        <div
+          className="
+            pointer-events-none
+            absolute
+            inset-3
+            sm:inset-6
+            rounded-tl-[35px]
+            rounded-br-[35px]
+            border
+          "
+          style={{
+            borderColor: COLORES.roseGold,
+            opacity: 0.7,
+          }}
+        />
 
-          <div className="w-24 h-px bg-[#B88A8A] mx-auto mt-6"></div>
+        {/* CONTENIDO */}
 
-          <motion.img
-            whileHover={{ scale: 1.05, rotate: 3 }}
-            transition={{ duration: 0.3 }}
-            src="/regalo1.png"
-            alt="Regalo"
-            className="w-28 mx-auto mt-12"
-          />
+        <div
+          className="
+            relative
+            z-10
+            mx-auto
+            max-w-5xl
+          "
+        >
+          {/* ==================================
+              ENCABEZADO
+          ================================== */}
 
-          <p className="max-w-2xl mx-auto mt-10 text-[#4A141D] text-xl leading-10 font-playfair">
-            El mejor regalo será compartir este día contigo.
-            <br />
-            <br />
-            Si deseas tener un detalle con nosotros, puedes hacerlo mediante una
-            transferencia bancaria.
-          </p>
-
-          <button
-            type="button"
-            onClick={() => setMostrarModal(true)}
+          <motion.div
+            initial={{
+              opacity: 0,
+              y: 30,
+            }}
+            whileInView={{
+              opacity: 1,
+              y: 0,
+            }}
+            viewport={{ once: true }}
+            transition={{
+              duration: 0.9,
+            }}
             className="
-              mt-12
-              bg-[#4A141D]
-              text-[#F4E8DD]
-              px-10
-              py-4
-              rounded-full
-              text-lg
-              shadow-xl
-              hover:scale-105
-              hover:bg-[#6B1F2A]
-              transition
-              duration-300
+              flex
+              flex-col
+              items-center
+              text-center
             "
           >
-            Ver datos bancarios
-          </button>
+            <Gift
+              size={35}
+              strokeWidth={1.1}
+              style={{
+                color: COLORES.roseGold,
+              }}
+            />
+
+            <p
+              className="
+                mt-7
+                font-playfair
+                uppercase
+                tracking-[0.25em]
+                sm:tracking-[0.35em]
+                text-xs
+                sm:text-sm
+              "
+              style={{
+                color: COLORES.vintageMauve,
+              }}
+            >
+              {CONFIG.subtitulo}
+            </p>
+
+            <h2
+              className="
+                mt-5
+                font-playfair
+                uppercase
+                tracking-[0.1em]
+                sm:tracking-[0.18em]
+                text-3xl
+                sm:text-4xl
+                lg:text-5xl
+                leading-relaxed
+              "
+              style={{
+                color: COLORES.texto,
+              }}
+            >
+              {CONFIG.titulo}
+            </h2>
+
+            <div className="my-8">
+              <Ornamento ancho="w-16" />
+            </div>
+
+            <p
+              className="
+                max-w-2xl
+                font-playfair
+                text-base
+                sm:text-xl
+                leading-relaxed
+              "
+              style={{
+                color: COLORES.texto,
+              }}
+            >
+              {CONFIG.descripcion}
+            </p>
+          </motion.div>
+
+          {/* ==================================
+              OPCIONES DE REGALO
+          ================================== */}
+
+          <div
+            className="
+              mt-14
+              grid
+              grid-cols-1
+              md:grid-cols-2
+              gap-7
+              lg:gap-10
+              items-stretch
+            "
+          >
+            {/* ================================
+                REGALO FÍSICO O SOBRE
+            ================================ */}
+
+            <motion.div
+              initial={{
+                opacity: 0,
+                y: 30,
+              }}
+              whileInView={{
+                opacity: 1,
+                y: 0,
+              }}
+              viewport={{ once: true }}
+              transition={{
+                duration: 0.8,
+              }}
+              className="
+                relative
+                flex
+                flex-col
+                items-center
+                text-center
+                border
+                rounded-tl-[35px]
+                rounded-br-[35px]
+                px-6
+                py-12
+                sm:px-10
+              "
+              style={{
+                borderColor: COLORES.roseGold,
+                backgroundColor:
+                  "rgba(232,222,206,0.25)",
+              }}
+            >
+              <Gift
+                size={36}
+                strokeWidth={1.1}
+                style={{
+                  color: COLORES.vintageMauve,
+                }}
+              />
+
+              <h3
+                className="
+                  mt-7
+                  font-playfair
+                  text-2xl
+                  sm:text-3xl
+                "
+                style={{
+                  color: COLORES.texto,
+                }}
+              >
+                {CONFIG.regalo.titulo}
+              </h3>
+
+              <div className="my-6">
+                <Ornamento ancho="w-10" />
+              </div>
+
+              <p
+                className="
+                  font-playfair
+                  text-base
+                  sm:text-lg
+                  leading-relaxed
+                "
+                style={{
+                  color: COLORES.texto,
+                }}
+              >
+                {CONFIG.regalo.descripcion}
+              </p>
+
+              <Heart
+                size={22}
+                strokeWidth={1.2}
+                className="mt-9"
+                style={{
+                  color: COLORES.roseGold,
+                }}
+              />
+            </motion.div>
+
+            {/* ================================
+                TRANSFERENCIA BANCARIA
+            ================================ */}
+
+            <motion.div
+              initial={{
+                opacity: 0,
+                y: 30,
+              }}
+              whileInView={{
+                opacity: 1,
+                y: 0,
+              }}
+              viewport={{ once: true }}
+              transition={{
+                duration: 0.8,
+                delay: 0.15,
+              }}
+              className="
+                relative
+                flex
+                flex-col
+                items-center
+                text-center
+                border
+                rounded-tl-[35px]
+                rounded-br-[35px]
+                px-6
+                py-12
+                sm:px-10
+              "
+              style={{
+                borderColor: COLORES.roseGold,
+                backgroundColor:
+                  "rgba(232,222,206,0.25)",
+              }}
+            >
+              <Landmark
+                size={36}
+                strokeWidth={1.1}
+                style={{
+                  color: COLORES.vintageMauve,
+                }}
+              />
+
+              <h3
+                className="
+                  mt-7
+                  font-playfair
+                  text-2xl
+                  sm:text-3xl
+                "
+                style={{
+                  color: COLORES.texto,
+                }}
+              >
+                {CONFIG.transferencia.titulo}
+              </h3>
+
+              <div className="my-6">
+                <Ornamento ancho="w-10" />
+              </div>
+
+              <p
+                className="
+                  font-playfair
+                  text-base
+                  sm:text-lg
+                  leading-relaxed
+                "
+                style={{
+                  color: COLORES.texto,
+                }}
+              >
+                {CONFIG.transferencia.descripcion}
+              </p>
+
+              {/* BOTÓN */}
+
+              <motion.button
+                type="button"
+                onClick={() =>
+                  setMostrarModal(true)
+                }
+                whileHover={{
+                  scale: 1.04,
+                }}
+                whileTap={{
+                  scale: 0.97,
+                }}
+                className="
+                  mt-auto
+                  pt-0
+                  relative
+                  top-0
+                  inline-flex
+                  items-center
+                  justify-center
+                  gap-3
+                  rounded-full
+                  px-7
+                  py-3.5
+                  font-playfair
+                  text-xs
+                  sm:text-sm
+                  uppercase
+                  tracking-[0.1em]
+                  shadow-sm
+                "
+                style={{
+                  marginTop: "36px",
+                  backgroundColor:
+                    COLORES.vintageMauve,
+                  color: COLORES.marfil,
+                }}
+              >
+                <Landmark size={17} />
+
+                Ver datos bancarios
+              </motion.button>
+            </motion.div>
+          </div>
+
+          {/* ==================================
+              FRASE FINAL
+          ================================== */}
+
+          <motion.div
+            initial={{
+              opacity: 0,
+              y: 20,
+            }}
+            whileInView={{
+              opacity: 1,
+              y: 0,
+            }}
+            viewport={{ once: true }}
+            transition={{
+              duration: 0.9,
+            }}
+            className="
+              mt-16
+              text-center
+            "
+          >
+            <Ornamento ancho="w-20" />
+
+            <p
+              className="
+                mt-7
+                font-cursiveDancing
+                text-3xl
+                sm:text-5xl
+              "
+              style={{
+                color: COLORES.vintageMauve,
+              }}
+            >
+              {CONFIG.fraseFinal}
+            </p>
+
+            <Flower2
+              size={27}
+              strokeWidth={1}
+              className="mx-auto mt-6"
+              style={{
+                color: COLORES.roseGold,
+              }}
+            />
+          </motion.div>
         </div>
-      </motion.div>
+      </section>
+
+      {/* ======================================
+          MODAL DE DATOS BANCARIOS
+      ====================================== */}
 
       <AnimatePresence>
         {mostrarModal && (
           <motion.div
-            className="
-              fixed inset-0
-              bg-black/75
-              backdrop-blur-xl
-              flex items-center justify-center
-              z-[9999]
-              px-5
-            "
-            onClick={() => setMostrarModal(false)}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            onClick={() =>
+              setMostrarModal(false)
+            }
+            className="
+              fixed
+              inset-0
+              z-[9999]
+              flex
+              items-center
+              justify-center
+              bg-black/65
+              px-4
+              py-6
+            "
           >
             <motion.div
-              onClick={(e) => e.stopPropagation()}
-              initial={{ scale: 0.85, opacity: 0, y: 60 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.85, opacity: 0, y: 60 }}
-              transition={{ duration: 0.35 }}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="titulo-banco"
+              initial={{
+                opacity: 0,
+                scale: 0.92,
+                y: 30,
+              }}
+              animate={{
+                opacity: 1,
+                scale: 1,
+                y: 0,
+              }}
+              exit={{
+                opacity: 0,
+                scale: 0.92,
+                y: 30,
+              }}
+              transition={{
+                duration: 0.35,
+              }}
+              onClick={(e) =>
+                e.stopPropagation()
+              }
               className="
                 relative
                 w-full
-                max-w-[360px]
-                rounded-[2rem]
-                bg-[#4A141D]
-                text-[#F4E8DD]
-                p-8
-                border border-[#B88A8A]/40
-                shadow-[0_30px_80px_rgba(0,0,0,.4)]
+                max-w-md
+                max-h-[90vh]
+                overflow-y-auto
+                rounded-tl-[35px]
+                rounded-br-[35px]
+                border
+                px-6
+                py-12
+                sm:px-10
+                text-center
+                shadow-2xl
               "
+              style={{
+                backgroundColor:
+                  COLORES.marfil,
+                borderColor:
+                  COLORES.roseGold,
+              }}
             >
+              {/* BOTÓN CERRAR */}
+
               <button
                 type="button"
-                onClick={() => setMostrarModal(false)}
-                aria-label="Cerrar datos bancarios"
+                onClick={() =>
+                  setMostrarModal(false)
+                }
+                aria-label="Cerrar"
                 className="
-                  absolute top-4 right-5
-                  text-3xl leading-none
-                  text-[#F4E8DD]
-                  hover:text-[#B88A8A]
-                  transition-colors
+                  absolute
+                  top-5
+                  right-5
+                  p-2
+                  rounded-full
+                  transition
+                  hover:bg-black/5
                 "
               >
-                ×
+                <X
+                  size={23}
+                  style={{
+                    color: COLORES.texto,
+                  }}
+                />
               </button>
 
-              <h3 className="font-playfair text-3xl">
-                Santander
+              {/* ICONO */}
+
+              <Landmark
+                size={35}
+                strokeWidth={1.1}
+                className="mx-auto"
+                style={{
+                  color: COLORES.roseGold,
+                }}
+              />
+
+              {/* BANCO */}
+
+              <h3
+                id="titulo-banco"
+                className="
+                  mt-5
+                  font-playfair
+                  text-3xl
+                  sm:text-4xl
+                "
+                style={{
+                  color: COLORES.texto,
+                }}
+              >
+                {CONFIG.transferencia.banco}
               </h3>
 
-              <div className="w-12 h-8 rounded bg-[#B88A8A] mt-6"></div>
+              <div className="my-7">
+                <Ornamento ancho="w-12" />
+              </div>
 
-              <p className="tracking-[.18em] text-lg mt-8">
-                1234 5678 9012 3456
-              </p>
+              {/* CLABE */}
 
-              <p className="mt-6 text-sm text-[#F4E8DD]/70">
-                Titular
-              </p>
-
-              <p className="font-playfair">
-                Juan Pérez
-              </p>
-
-              <button
-                type="button"
-                onClick={copiarCuenta}
+              <p
                 className="
-                  w-full
-                  mt-8
-                  bg-[#F4E8DD]
-                  text-[#4A141D]
-                  py-3
-                  rounded-full
-                  font-semibold
-                  hover:bg-[#F8F2ED]
-                  transition-colors
+                  font-playfair
+                  uppercase
+                  tracking-[0.15em]
+                  text-xs
+                  sm:text-sm
                 "
+                style={{
+                  color:
+                    COLORES.vintageMauve,
+                }}
               >
-                Copiar número
-              </button>
+                Cuenta CLABE
+              </p>
 
-              {copiado && (
-                <p className="text-center mt-4 text-[#B88A8A]">
-                  Número copiado
-                </p>
-              )}
+              <p
+                className="
+                  mt-4
+                  font-playfair
+                  text-lg
+                  sm:text-xl
+                  font-semibold
+                  tracking-[0.05em]
+                  break-all
+                "
+                style={{
+                  color: COLORES.texto,
+                }}
+              >
+                {CONFIG.transferencia.clabe}
+              </p>
+
+              {/* TITULAR */}
+
+              <p
+                className="
+                  mt-8
+                  font-playfair
+                  uppercase
+                  tracking-[0.15em]
+                  text-xs
+                "
+                style={{
+                  color:
+                    COLORES.vintageMauve,
+                }}
+              >
+                Titular de la cuenta
+              </p>
+
+              <p
+                className="
+                  mt-3
+                  font-playfair
+                  text-xl
+                  leading-relaxed
+                "
+                style={{
+                  color: COLORES.texto,
+                }}
+              >
+                {CONFIG.transferencia.titular}
+              </p>
+
+              {/* COPIAR CLABE */}
+
+              <motion.button
+                type="button"
+                onClick={copiarClabe}
+                whileHover={{
+                  scale: 1.03,
+                }}
+                whileTap={{
+                  scale: 0.97,
+                }}
+                className="
+                  mt-9
+                  w-full
+                  flex
+                  items-center
+                  justify-center
+                  gap-3
+                  rounded-full
+                  px-6
+                  py-4
+                  font-playfair
+                  text-sm
+                  uppercase
+                  tracking-[0.1em]
+                "
+                style={{
+                  backgroundColor:
+                    COLORES.vintageMauve,
+                  color: COLORES.marfil,
+                }}
+              >
+                {copiado ? (
+                  <>
+                    <Check size={18} />
+                    CLABE copiada
+                  </>
+                ) : (
+                  <>
+                    <Copy size={18} />
+                    Copiar CLABE
+                  </>
+                )}
+              </motion.button>
+
+              {/* MENSAJE */}
+
+              <p
+                className="
+                  mt-7
+                  font-cursiveDancing
+                  text-3xl
+                "
+                style={{
+                  color:
+                    COLORES.vintageMauve,
+                }}
+              >
+                ¡Muchas gracias!
+              </p>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
-    </section>
+    </>
   );
-};
-
-export default Regalos;
+}

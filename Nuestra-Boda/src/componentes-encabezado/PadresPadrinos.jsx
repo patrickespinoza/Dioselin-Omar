@@ -4,199 +4,219 @@ import { motion } from "framer-motion";
 import { Heart, Flower2 } from "lucide-react";
 
 // ==========================================
-// INFORMACIÓN EDITABLE - WEDLY PLUS
+// INFORMACIÓN EDITABLE - WEDLY
 // ==========================================
 
-// PADRES DE LA NOVIA
 const padresNovia = {
   titulo: "Padres de la novia",
-  padre: "Alejandro Mendoza",
-  madre: "Claudia Valdés",
+  nombres: [
+    "Remedios Carrillo Castañeda",
+    "Francisco Tezmol Flores",
+  ],
 };
 
-// PADRES DEL NOVIO
 const padresNovio = {
   titulo: "Padres del novio",
-  padre: "Ricardo Navarro",
-  madre: "Mariana Salazar",
+  nombres: [
+    "Patricia Bautista Gonzalez",
+    "Gregorio Najera Ramirez",
+  ],
 };
 
-// TEXTOS DE LA SECCIÓN
+const padrinos = {
+  titulo: "Nuestros padrinos",
+  nombres: [
+    "Juana Donjuan Hernandez",
+    "J. Asuncion Cleto Ochoa",
+  ],
+};
+
 const textos = {
-  subtitulo: "Con amor y gratitud",
   titulo: "Nuestros padres",
   descripcion:
     "Con la bendición y el amor de quienes nos han acompañado en cada paso de nuestra vida, queremos compartir contigo este día tan especial.",
-  fraseFinal:
-    "El amor que hoy celebramos también nace del amor de nuestras familias.",
+};
+
+// ==========================================
+// PALETA CHATEAU ROSE
+// ==========================================
+
+const COLORES = {
+  dustyRose: "#D9B5AD",
+  vintageMauve: "#AD898D",
+  englishRose: "#DAB9AD",
+  champagne: "#E8DECE",
+  roseGold: "#C4937E",
+  marfil: "#F8F1EB",
+  texto: "#654A48",
 };
 
 // ==========================================
 // ANIMACIONES
 // ==========================================
 
-const animacionTarjeta = {
+const animacion = {
   oculto: {
     opacity: 0,
-    y: 35,
+    y: 25,
   },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.8,
+      duration: 0.85,
       ease: [0.22, 1, 0.36, 1],
     },
   },
 };
 
 // ==========================================
-// TARJETA DE PADRES
+// ORNAMENTO CLÁSICO
 // ==========================================
 
-const TarjetaPadres = ({ titulo, padre, madre }) => {
+const Ornamento = ({ ancho = "w-16" }) => (
+  <div
+    className="
+      flex items-center justify-center
+      gap-3
+    "
+    aria-hidden="true"
+  >
+    <span
+      className={`${ancho} h-px`}
+      style={{
+        backgroundColor: COLORES.roseGold,
+      }}
+    />
+
+    <span
+      className="text-xl leading-none"
+      style={{
+        color: COLORES.roseGold,
+      }}
+    >
+      ❧
+    </span>
+
+    <span
+      className={`${ancho} h-px`}
+      style={{
+        backgroundColor: COLORES.roseGold,
+      }}
+    />
+  </div>
+);
+
+// ==========================================
+// BLOQUE DE NOMBRES
+// ==========================================
+
+const BloqueFamilia = ({
+  titulo,
+  nombres,
+  destacado = false,
+}) => {
   return (
     <motion.div
-      variants={animacionTarjeta}
+      variants={animacion}
       className="
         relative
-        w-full
-        max-w-[450px]
-        overflow-hidden
-        rounded-tl-[3.5rem]
-        rounded-br-[3.5rem]
-        rounded-tr-[1rem]
-        rounded-bl-[1rem]
-        border border-[#B88A8A]/40
-        bg-[#F8F2ED]
-        px-6 py-12
-        sm:px-10 sm:py-14
+        flex flex-col
+        items-center
         text-center
-        shadow-[0_18px_50px_rgba(74,20,29,0.09)]
+        w-full
+        px-2
+        sm:px-5
       "
     >
-      {/* LÍNEA SUPERIOR */}
-      <div
-        className="
-          absolute top-0 left-1/2
-          h-[3px] w-28
-          -translate-x-1/2
-          bg-[#B88A8A]
-        "
-      />
+      {/* DECORACIÓN */}
 
-      {/* DECORACIÓN SUPERIOR */}
-      <div
-        className="
-          absolute -top-16 -right-16
-          h-44 w-44
-          rounded-full
-          border border-[#B88A8A]/20
-          pointer-events-none
-        "
-      />
+      {destacado && (
+        <Flower2
+          size={28}
+          strokeWidth={1}
+          className="mb-5"
+          style={{
+            color: COLORES.roseGold,
+          }}
+        />
+      )}
 
-      <div
-        className="
-          absolute -top-9 -right-9
-          h-28 w-28
-          rounded-full
-          border border-[#B88A8A]/20
-          pointer-events-none
-        "
-      />
+      {/* TÍTULO */}
 
-      <div className="relative z-10 flex flex-col items-center">
+      <h3
+        className={`
+          font-playfair
+          ${destacado
+            ? "text-2xl sm:text-3xl"
+            : "text-xl sm:text-2xl"}
+          italic
+          leading-relaxed
+        `}
+        style={{
+          color: COLORES.texto,
+        }}
+      >
+        {titulo}
+      </h3>
 
-        {/* ICONO */}
-        <div
-          className="
-            mb-7
-            flex h-16 w-16
-            items-center justify-center
-            rounded-full
-            border border-[#B88A8A]/45
-            bg-[#F4E8DD]
-          "
-        >
-          <Flower2
-            size={30}
-            strokeWidth={1.2}
-            className="text-[#4A141D]"
-          />
-        </div>
+      {/* SEPARADOR */}
 
-        {/* TÍTULO */}
-        <h3
-          className="
-            font-playfair
-            text-xl sm:text-2xl
-            text-[#4A141D]
-          "
-        >
-          {titulo}
-        </h3>
-
-        {/* SEPARADOR */}
-        <div className="my-7 flex items-center gap-3">
-          <div className="h-[1px] w-10 bg-[#B88A8A]" />
-
-          <Heart
-            size={13}
-            strokeWidth={1.4}
-            className="text-[#B88A8A]"
-          />
-
-          <div className="h-[1px] w-10 bg-[#B88A8A]" />
-        </div>
-
-        {/* NOMBRES */}
-        <div className="flex flex-col items-center gap-4">
-
-          <p
-            className="
-              font-playfair
-              text-2xl sm:text-[1.8rem]
-              leading-snug
-              text-[#4A141D]
-            "
-          >
-            {padre}
-          </p>
-
-          <span
-            className="
-              font-cursiveDancing
-              text-3xl
-              text-[#B88A8A]
-            "
-          >
-            &
-          </span>
-
-          <p
-            className="
-              font-playfair
-              text-2xl sm:text-[1.8rem]
-              leading-snug
-              text-[#4A141D]
-            "
-          >
-            {madre}
-          </p>
-
-        </div>
+      <div className="my-5">
+        <Ornamento ancho="w-10" />
       </div>
 
-      {/* LÍNEA INFERIOR */}
-      <div
+      {/* PRIMER NOMBRE */}
+
+      <p
         className="
-          absolute bottom-0 left-1/2
-          h-[3px] w-28
-          -translate-x-1/2
-          bg-[#B88A8A]
+          font-playfair
+          text-lg
+          sm:text-xl
+          lg:text-[1.4rem]
+          leading-relaxed
+          break-words
         "
-      />
+        style={{
+          color: COLORES.texto,
+        }}
+      >
+        {nombres[0]}
+      </p>
+
+      {/* UNIÓN */}
+
+      <span
+        className="
+          my-3
+          font-cursiveDancing
+          text-3xl
+          sm:text-4xl
+        "
+        style={{
+          color: COLORES.roseGold,
+        }}
+      >
+        &
+      </span>
+
+      {/* SEGUNDO NOMBRE */}
+
+      <p
+        className="
+          font-playfair
+          text-lg
+          sm:text-xl
+          lg:text-[1.4rem]
+          leading-relaxed
+          break-words
+        "
+        style={{
+          color: COLORES.texto,
+        }}
+      >
+        {nombres[1]}
+      </p>
     </motion.div>
   );
 };
@@ -205,142 +225,341 @@ const TarjetaPadres = ({ titulo, padre, madre }) => {
 // COMPONENTE PRINCIPAL
 // ==========================================
 
-const Padres = () => {
+export default function Padres() {
   return (
     <section
+      id="padres"
       className="
         relative
         w-full
         overflow-hidden
-        bg-[#F4E8DD]
-        px-5
-        py-20 sm:py-28
+        px-4
+        py-20
+        sm:px-8
+        sm:py-28
+        lg:py-32
       "
+      style={{
+        backgroundColor: COLORES.marfil,
+      }}
     >
-      {/* DECORACIONES DE FONDO */}
+      {/* ======================================
+          MARCO EXTERIOR CLÁSICO
+      ====================================== */}
+
       <div
         className="
           pointer-events-none
-          absolute -left-40 top-20
-          h-80 w-80
-          rounded-full
-          border border-[#B88A8A]/20
+          absolute
+          inset-3
+          sm:inset-6
+          rounded-tl-[35px]
+          rounded-br-[35px]
+          border
         "
+        style={{
+          borderColor: COLORES.roseGold,
+          opacity: 0.65,
+        }}
+      />
+
+      {/* ======================================
+          DECORACIONES DE FONDO
+      ====================================== */}
+
+      <div
+        className="
+          pointer-events-none
+          absolute
+          -top-20
+          -left-20
+          h-64
+          w-64
+          rounded-full
+        "
+        style={{
+          backgroundColor: COLORES.dustyRose,
+          opacity: 0.12,
+        }}
       />
 
       <div
         className="
           pointer-events-none
-          absolute -right-40 bottom-20
-          h-80 w-80
+          absolute
+          -bottom-20
+          -right-20
+          h-64
+          w-64
           rounded-full
-          border border-[#B88A8A]/20
         "
+        style={{
+          backgroundColor: COLORES.englishRose,
+          opacity: 0.14,
+        }}
       />
 
-      <div className="relative z-10 mx-auto max-w-6xl">
+      {/* ======================================
+          CONTENIDO
+      ====================================== */}
 
-        {/* ENCABEZADO */}
+      <div
+        className="
+          relative
+          z-10
+          mx-auto
+          max-w-5xl
+        "
+      >
+        {/* ======================================
+            ENCABEZADO
+        ====================================== */}
+
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.8 }}
-          className="mb-14 text-center"
+          initial="oculto"
+          whileInView="visible"
+          viewport={{
+            once: true,
+            amount: 0.2,
+          }}
+          variants={animacion}
+          className="
+            text-center
+            mb-14
+            sm:mb-20
+          "
         >
-          {/* ADORNO */}
-          <div className="mb-6 flex items-center justify-center gap-3">
-            <div className="h-[1px] w-12 bg-[#B88A8A]" />
+          {/* ORNAMENTO SUPERIOR */}
 
-            <Heart
-              size={20}
-              strokeWidth={1.3}
-              className="text-[#B88A8A]"
-            />
-
-            <div className="h-[1px] w-12 bg-[#B88A8A]" />
+          <div className="mb-7">
+            <Ornamento ancho="w-16" />
           </div>
 
           {/* SUBTÍTULO */}
+
           <p
             className="
-              text-xs sm:text-sm
               uppercase
-              tracking-[0.35em]
-              text-[#9B626B]
+              tracking-[0.25em]
+              sm:tracking-[0.35em]
+              text-[11px]
+              sm:text-sm
+              font-playfair
             "
+            style={{
+              color: COLORES.vintageMauve,
+            }}
           >
             {textos.subtitulo}
           </p>
 
-          {/* TÍTULO PRINCIPAL */}
+          {/* TÍTULO */}
+
           <h2
             className="
               mt-5
-              font-cursiveDancing
-              text-5xl sm:text-6xl md:text-7xl
-              text-[#4A141D]
+              font-playfair
+              uppercase
+              tracking-[0.12em]
+              sm:tracking-[0.2em]
+              text-2xl
+              sm:text-4xl
+              lg:text-5xl
+              leading-relaxed
             "
+            style={{
+              color: COLORES.texto,
+            }}
           >
             {textos.titulo}
           </h2>
 
+          {/* LÍNEA DECORATIVA */}
+
+          <div className="mt-5">
+            <Ornamento ancho="w-12" />
+          </div>
+
           {/* DESCRIPCIÓN */}
+
           <p
             className="
-              mx-auto mt-7
+              mx-auto
+              mt-8
               max-w-2xl
               font-playfair
-              text-base sm:text-lg
+              text-base
+              sm:text-lg
               leading-relaxed
-              text-[#4A141D]/80
             "
+            style={{
+              color: COLORES.texto,
+            }}
           >
             {textos.descripcion}
           </p>
         </motion.div>
 
-        {/* TARJETAS DE PADRES */}
+        {/* ======================================
+            PADRES DE LOS NOVIOS
+        ====================================== */}
+
         <motion.div
           initial="oculto"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.15 }}
-          transition={{ staggerChildren: 0.18 }}
+          viewport={{
+            once: true,
+            amount: 0.15,
+          }}
+          transition={{
+            staggerChildren: 0.2,
+          }}
           className="
-            grid grid-cols-1
-            items-stretch
-            justify-items-center
-            gap-8 lg:gap-10
+            relative
+            grid
+            grid-cols-1
             md:grid-cols-2
+            gap-14
+            md:gap-10
+            lg:gap-16
+            items-start
           "
         >
-          <TarjetaPadres {...padresNovia} />
+          {/* DIVISIÓN VERTICAL EN LAPTOP */}
 
-          <TarjetaPadres {...padresNovio} />
+          <div
+            className="
+              hidden
+              md:block
+              absolute
+              left-1/2
+              top-4
+              bottom-4
+              w-px
+              -translate-x-1/2
+            "
+            style={{
+              backgroundColor:
+                COLORES.roseGold,
+              opacity: 0.55,
+            }}
+          />
+
+          <BloqueFamilia {...padresNovia} />
+
+          <BloqueFamilia {...padresNovio} />
         </motion.div>
 
-        {/* FRASE FINAL */}
+        {/* ======================================
+            SEPARADOR DE PADRINOS
+        ====================================== */}
+
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="mt-16 text-center"
+          transition={{ duration: 1 }}
+          className="
+            my-16
+            sm:my-20
+          "
         >
-          <Flower2
-            size={25}
-            strokeWidth={1.2}
-            className="mx-auto mb-5 text-[#B88A8A]"
+          <Ornamento ancho="w-24" />
+        </motion.div>
+
+        {/* ======================================
+            PADRINOS
+        ====================================== */}
+
+        <motion.div
+          initial="oculto"
+          whileInView="visible"
+          viewport={{
+            once: true,
+            amount: 0.2,
+          }}
+          className="
+            mx-auto
+            max-w-xl
+            text-center
+          "
+        >
+          <BloqueFamilia
+            {...padrinos}
+            destacado
           />
+        </motion.div>
+
+        {/* ======================================
+            FRASE FINAL
+        ====================================== */}
+
+        <motion.div
+          initial={{
+            opacity: 0,
+            y: 20,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{ once: true }}
+          transition={{
+            duration: 0.9,
+          }}
+          className="
+            mt-16
+            sm:mt-20
+            text-center
+          "
+        >
+          <div
+            className="
+              flex
+              justify-center
+              items-center
+              gap-4
+              mb-7
+            "
+          >
+            <span
+              className="w-14 h-px"
+              style={{
+                backgroundColor:
+                  COLORES.roseGold,
+              }}
+            />
+
+            <Heart
+              size={19}
+              strokeWidth={1.2}
+              style={{
+                color: COLORES.roseGold,
+              }}
+            />
+
+            <span
+              className="w-14 h-px"
+              style={{
+                backgroundColor:
+                  COLORES.roseGold,
+              }}
+            />
+          </div>
 
           <p
             className="
-              mx-auto max-w-xl
+              mx-auto
+              max-w-xl
               font-playfair
-              text-lg sm:text-xl
-              italic leading-relaxed
-              text-[#4A141D]/85
+              italic
+              text-base
+              sm:text-xl
+              leading-relaxed
             "
+            style={{
+              color: COLORES.texto,
+            }}
           >
             {textos.fraseFinal}
           </p>
@@ -348,6 +567,4 @@ const Padres = () => {
       </div>
     </section>
   );
-};
-
-export default Padres;
+}

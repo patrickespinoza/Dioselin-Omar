@@ -2,51 +2,65 @@
 import React from "react";
 import { motion } from "framer-motion";
 import {
-  HeartHandshake,
-  GlassWater,
-  Music2,
+  Church,
   UtensilsCrossed,
-  Cake,
-  MoonStar,
+  Heart,
+  Music2,
+  Flower2,
 } from "lucide-react";
 
 // ==========================================
-// INFORMACIÓN EDITABLE - WEDLY PLUS
+// INFORMACIÓN EDITABLE - WEDLY
 // ==========================================
 
-// Modifica los horarios y nombres según el evento.
+const CONFIG = {
+  subtitulo: "Momentos especiales",
+  titulo: "Itinerario",
+  descripcion:
+    "Cada instante será parte de una historia inolvidable. Acompáñanos a celebrar cada momento.",
+  fraseFinal: "¡Celebremos juntos!",
+};
+
+// ==========================================
+// EVENTOS DEL ITINERARIO
+// ==========================================
+
 const eventos = [
   {
-    titulo: "Ceremonia civil",
-    hora: "4:30 PM",
-    icono: HeartHandshake,
-  },
-  {
-    titulo: "Recepción",
-    hora: "6:00 PM",
-    icono: GlassWater,
-  },
-  {
-    titulo: "Baile",
-    hora: "7:00 PM",
-    icono: Music2,
+    titulo: "Ceremonia Religiosa",
+    hora: "2:00 p. m.",
+    icono: Church,
   },
   {
     titulo: "Comida",
-    hora: "8:00 PM",
+    hora: "3:30 p. m. – 7:00 p. m.",
     icono: UtensilsCrossed,
   },
   {
-    titulo: "Pastel",
-    hora: "9:30 PM",
-    icono: Cake,
+    titulo: "Nuestro Baile",
+    hora: "7:00 p. m. – 8:00 p. m.",
+    icono: Heart,
   },
   {
-    titulo: "Fin de la celebración",
-    hora: "12:00 AM",
-    icono: MoonStar,
+    titulo: "Fiesta Baile",
+    hora: "8:00 p. m.",
+    icono: Music2,
   },
 ];
+
+// ==========================================
+// PALETA CHATEAU ROSE
+// ==========================================
+
+const COLORES = {
+  dustyRose: "#D9B5AD",
+  vintageMauve: "#AD898D",
+  englishRose: "#DAB9AD",
+  champagne: "#E8DECE",
+  roseGold: "#C4937E",
+  marfil: "#F8F1EB",
+  texto: "#654A48",
+};
 
 // ==========================================
 // ANIMACIONES
@@ -55,20 +69,59 @@ const eventos = [
 const animacionEntrada = {
   oculto: {
     opacity: 0,
-    y: 35,
+    y: 30,
   },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.7,
+      duration: 0.8,
       ease: [0.22, 1, 0.36, 1],
     },
   },
 };
 
 // ==========================================
-// TARJETA DE EVENTO
+// ORNAMENTO CLÁSICO
+// ==========================================
+
+const Ornamento = ({ ancho = "w-16" }) => (
+  <div
+    className="
+      flex
+      items-center
+      justify-center
+      gap-3
+    "
+    aria-hidden="true"
+  >
+    <span
+      className={`${ancho} h-px`}
+      style={{
+        backgroundColor: COLORES.champagne,
+      }}
+    />
+
+    <span
+      className="text-xl leading-none"
+      style={{
+        color: COLORES.champagne,
+      }}
+    >
+      ❧
+    </span>
+
+    <span
+      className={`${ancho} h-px`}
+      style={{
+        backgroundColor: COLORES.champagne,
+      }}
+    />
+  </div>
+);
+
+// ==========================================
+// COMPONENTE DE CADA EVENTO
 // ==========================================
 
 const EventoItinerario = ({
@@ -80,273 +133,411 @@ const EventoItinerario = ({
   return (
     <motion.div
       variants={animacionEntrada}
-      className="relative flex items-start gap-5 sm:gap-8"
+      className="
+        relative
+        flex
+        items-stretch
+        gap-4
+        sm:gap-8
+      "
     >
-      {/* COLUMNA DEL ICONO Y LÍNEA */}
-      <div className="relative flex flex-col items-center shrink-0">
+      {/* ======================================
+          ICONO Y LÍNEA VERTICAL
+      ====================================== */}
 
-        {/* ICONO CIRCULAR */}
+      <div
+        className="
+          relative
+          flex
+          flex-col
+          items-center
+          shrink-0
+          w-14
+          sm:w-20
+        "
+      >
+        {/* CÍRCULO DEL ICONO */}
+
         <div
           className="
-            relative z-10
-            flex h-16 w-16
-            sm:h-20 sm:w-20
-            items-center justify-center
+            relative
+            z-10
+            flex
+            items-center
+            justify-center
+            w-14
+            h-14
+            sm:w-20
+            sm:h-20
             rounded-full
-            border border-[#B88A8A]/55
-            bg-[#F8F2ED]
-            shadow-[0_8px_25px_rgba(74,20,29,0.10)]
+            border
           "
+          style={{
+            borderColor: COLORES.champagne,
+            backgroundColor: COLORES.vintageMauve,
+          }}
         >
           <Icono
-            size={29}
-            strokeWidth={1.4}
-            className="text-[#4A141D]"
+            size={26}
+            strokeWidth={1.25}
+            className="sm:w-8 sm:h-8"
+            style={{
+              color: COLORES.marfil,
+            }}
           />
         </div>
 
-        {/* LÍNEA VERTICAL */}
+        {/* LÍNEA DE TIEMPO */}
+
         {!ultimo && (
           <div
             className="
-              absolute top-16 bottom-[-2.5rem]
-              sm:top-20
-              w-[2px]
-              bg-[#B88A8A]/55
+              w-px
+              flex-1
+              min-h-10
             "
+            style={{
+              backgroundColor: COLORES.champagne,
+              opacity: 0.75,
+            }}
           />
         )}
       </div>
 
-      {/* INFORMACIÓN DEL EVENTO */}
+      {/* ======================================
+          INFORMACIÓN DEL EVENTO
+      ====================================== */}
+
       <div
-        className="
+        className={`
           flex-1
           min-w-0
-          pb-10
-          sm:pb-12
-        "
+          pt-1
+          ${ultimo ? "pb-0" : "pb-12 sm:pb-16"}
+        `}
       >
+        {/* HORA */}
+
+        <p
+          className="
+            font-playfair
+            text-sm
+            sm:text-lg
+            uppercase
+            tracking-[0.06em]
+            sm:tracking-[0.12em]
+            leading-relaxed
+          "
+          style={{
+            color: COLORES.champagne,
+          }}
+        >
+          {hora}
+        </p>
+
+        {/* TÍTULO */}
+
+        <h3
+          className="
+            mt-3
+            font-playfair
+            text-xl
+            sm:text-2xl
+            lg:text-3xl
+            leading-relaxed
+          "
+          style={{
+            color: COLORES.marfil,
+          }}
+        >
+          {titulo}
+        </h3>
+
+        {/* DETALLE DECORATIVO */}
+
         <div
           className="
-            rounded-2xl
-            border border-[#B88A8A]/30
-            bg-[#F8F2ED]/70
-            px-5 py-5
-            sm:px-8 sm:py-6
-            transition-all duration-300
-            hover:border-[#B88A8A]/70
-            hover:shadow-[0_10px_30px_rgba(74,20,29,0.08)]
+            mt-4
+            w-12
+            h-px
           "
-        >
-          {/* HORA */}
-          <p
-            className="
-              mb-2
-              text-xs sm:text-sm
-              font-semibold
-              uppercase
-              tracking-[0.22em]
-              text-[#9B626B]
-            "
-          >
-            {hora}
-          </p>
-
-          {/* NOMBRE DEL EVENTO */}
-          <h3
-            className="
-              font-playfair
-              text-xl sm:text-2xl
-              leading-snug
-              text-[#4A141D]
-            "
-          >
-            {titulo}
-          </h3>
-        </div>
+          style={{
+            backgroundColor: COLORES.champagne,
+            opacity: 0.65,
+          }}
+        />
       </div>
     </motion.div>
   );
 };
 
 // ==========================================
-// COMPONENTE PRINCIPAL - ITINERARIO
+// COMPONENTE PRINCIPAL
 // ==========================================
 
-const Itinerario = () => {
+export default function Itinerario() {
   return (
     <section
+      id="itinerario"
       className="
         relative
         w-full
         overflow-hidden
-        bg-[#4A141D]
-        px-5
-        py-20 sm:py-28
+        px-4
+        py-20
+        sm:px-8
+        sm:py-28
+        lg:py-32
       "
+      style={{
+        backgroundColor: COLORES.vintageMauve,
+      }}
     >
-      {/* DECORACIONES DEL FONDO */}
-      <div
-        className="
-          pointer-events-none
-          absolute -left-36 top-20
-          h-80 w-80
-          rounded-full
-          border border-[#B88A8A]/15
-        "
-      />
+      {/* ======================================
+          MARCO EXTERIOR CLÁSICO
+      ====================================== */}
 
       <div
         className="
           pointer-events-none
-          absolute -right-36 bottom-20
-          h-80 w-80
-          rounded-full
-          border border-[#B88A8A]/15
+          absolute
+          inset-3
+          sm:inset-6
+          rounded-tl-[35px]
+          rounded-br-[35px]
+          border
         "
+        style={{
+          borderColor: COLORES.champagne,
+          opacity: 0.75,
+        }}
       />
 
-      <div className="relative z-10 mx-auto max-w-5xl">
+      {/* ======================================
+          DECORACIÓN SUPERIOR
+      ====================================== */}
 
+      <div
+        className="
+          absolute
+          top-8
+          left-1/2
+          -translate-x-1/2
+          flex
+          items-center
+          gap-3
+        "
+        aria-hidden="true"
+      >
+        <span
+          className="w-12 sm:w-20 h-px"
+          style={{
+            backgroundColor: COLORES.champagne,
+          }}
+        />
+
+        <span
+          className="text-xl"
+          style={{
+            color: COLORES.champagne,
+          }}
+        >
+          ◇
+        </span>
+
+        <span
+          className="w-12 sm:w-20 h-px"
+          style={{
+            backgroundColor: COLORES.champagne,
+          }}
+        />
+      </div>
+
+      {/* ======================================
+          CONTENIDO PRINCIPAL
+      ====================================== */}
+
+      <div
+        className="
+          relative
+          z-10
+          mx-auto
+          max-w-4xl
+        "
+      >
         {/* ======================================
-            TARJETA PRINCIPAL CHAMPAGNE
+            ENCABEZADO
         ====================================== */}
+
         <motion.div
-          initial={{ opacity: 0, y: 45 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{
+            opacity: 0,
+            y: 30,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{
+            once: true,
+            amount: 0.2,
+          }}
           transition={{
             duration: 0.9,
-            ease: [0.22, 1, 0.36, 1],
           }}
-          viewport={{ once: true, amount: 0.1 }}
           className="
-            relative
-            overflow-hidden
-            rounded-tl-[4rem]
-            rounded-br-[4rem]
-            rounded-tr-2xl
-            rounded-bl-2xl
-            border border-[#B88A8A]/35
-            bg-[#F4E8DD]
-            px-6 py-14
-            sm:px-12 sm:py-16
-            shadow-[0_25px_70px_rgba(0,0,0,0.25)]
+            text-center
+            mb-14
+            sm:mb-20
           "
         >
-          {/* ENCABEZADO */}
-          <div className="text-center">
+          {/* SUBTÍTULO */}
 
-            <p
-              className="
-                mb-4
-                text-xs sm:text-sm
-                font-semibold
-                uppercase
-                tracking-[0.35em]
-                text-[#9B626B]
-              "
-            >
-              Momentos especiales
-            </p>
+          <p
+            className="
+              font-playfair
+              uppercase
+              tracking-[0.25em]
+              sm:tracking-[0.35em]
+              text-xs
+              sm:text-sm
+            "
+            style={{
+              color: COLORES.champagne,
+            }}
+          >
+            {CONFIG.subtitulo}
+          </p>
 
-            <h2
-              className="
-                font-playfair
-                text-4xl sm:text-5xl md:text-6xl
-                text-[#4A141D]
-              "
-            >
-              Itinerario
-            </h2>
+          {/* TÍTULO */}
 
-            {/* SEPARADOR */}
-            <div className="mx-auto my-8 h-px w-24 bg-[#B88A8A]" />
+          <h2
+            className="
+              mt-6
+              font-playfair
+              uppercase
+              tracking-[0.14em]
+              sm:tracking-[0.22em]
+              text-3xl
+              sm:text-4xl
+              lg:text-5xl
+            "
+            style={{
+              color: COLORES.marfil,
+            }}
+          >
+            {CONFIG.titulo}
+          </h2>
 
-            <p
-              className="
-                mx-auto max-w-xl
-                font-playfair
-                text-base sm:text-lg
-                leading-relaxed
-                text-[#4A141D]/75
-              "
-            >
-              Cada instante será parte de una historia
-              inolvidable. Acompáñanos a celebrar
-              cada momento.
-            </p>
+          {/* ORNAMENTO */}
+
+          <div className="my-8">
+            <Ornamento ancho="w-16" />
           </div>
 
-          {/* ======================================
-              LÍNEA DE TIEMPO
-          ====================================== */}
-          <motion.div
-            initial="oculto"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }}
-            transition={{
-              staggerChildren: 0.12,
-            }}
+          {/* DESCRIPCIÓN */}
+
+          <p
             className="
               mx-auto
-              mt-14
-              max-w-2xl
+              max-w-xl
+              font-playfair
+              text-base
+              sm:text-lg
+              leading-relaxed
             "
+            style={{
+              color: COLORES.marfil,
+            }}
           >
-            {eventos.map((evento, index) => (
-              <EventoItinerario
-                key={`${evento.titulo}-${index}`}
-                {...evento}
-                ultimo={index === eventos.length - 1}
-              />
-            ))}
-          </motion.div>
+            {CONFIG.descripcion}
+          </p>
+        </motion.div>
 
-          {/* FRASE FINAL */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="mt-4 text-center"
+        {/* ======================================
+            LÍNEA DE TIEMPO
+        ====================================== */}
+
+        <motion.div
+          initial="oculto"
+          whileInView="visible"
+          viewport={{
+            once: true,
+            amount: 0.1,
+          }}
+          transition={{
+            staggerChildren: 0.18,
+          }}
+          className="
+            mx-auto
+            max-w-2xl
+            px-2
+            sm:px-6
+          "
+        >
+          {eventos.map((evento, index) => (
+            <EventoItinerario
+              key={`${evento.titulo}-${index}`}
+              {...evento}
+              ultimo={
+                index === eventos.length - 1
+              }
+            />
+          ))}
+        </motion.div>
+
+        {/* ======================================
+            FRASE FINAL
+        ====================================== */}
+
+        <motion.div
+          initial={{
+            opacity: 0,
+            y: 20,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{
+            once: true,
+          }}
+          transition={{
+            duration: 0.9,
+            delay: 0.2,
+          }}
+          className="
+            mt-16
+            sm:mt-20
+            text-center
+          "
+        >
+          <Ornamento ancho="w-20" />
+
+          <p
+            className="
+              mt-8
+              font-cursiveDancing
+              text-4xl
+              sm:text-5xl
+            "
+            style={{
+              color: COLORES.marfil,
+            }}
           >
-            <div className="mx-auto mb-6 h-px w-24 bg-[#B88A8A]" />
+            {CONFIG.fraseFinal}
+          </p>
 
-            <p
-              className="
-                font-cursiveDancing
-                text-3xl sm:text-4xl
-                text-[#4A141D]
-              "
-            >
-              ¡Te esperamos!
-            </p>
-          </motion.div>
-
-          {/* DETALLES DECORATIVOS */}
-          <div
-            className="
-              absolute top-0 left-1/2
-              h-[3px] w-28
-              -translate-x-1/2
-              bg-[#B88A8A]
-            "
+          <Flower2
+            size={28}
+            strokeWidth={1}
+            className="mx-auto mt-7"
+            style={{
+              color: COLORES.champagne,
+            }}
           />
-
-          <div
-            className="
-              absolute bottom-0 left-1/2
-              h-[3px] w-28
-              -translate-x-1/2
-              bg-[#B88A8A]
-            "
-          />
-
         </motion.div>
       </div>
     </section>
   );
-};
-
-export default Itinerario;
+}

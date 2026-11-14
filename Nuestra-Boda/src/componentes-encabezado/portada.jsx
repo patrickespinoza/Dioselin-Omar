@@ -1,60 +1,108 @@
+
 import React from "react";
+import { motion } from "framer-motion";
+
+// ==========================================
+// INFORMACIÓN EDITABLE - WEDLY
+// ==========================================
+
+// Imagen para celulares
+const PORTADA_CELULAR = "/portadaC.png";
+
+// Imagen para laptops y computadoras
+const PORTADA_LAPTOP = "/portadaL.png";
+
+// ==========================================
+// COMPONENTE PORTADA
+// ==========================================
 
 export default function Portada() {
   return (
-    <section className="relative w-full h-screen overflow-hidden">
+    <section
+      id="portada"
+      className="
+        relative
+        w-full
+        h-[100svh]
+        overflow-hidden
+        bg-[#F8F1EB]
+      "
+    >
+      {/* ======================================
+          PORTADA PARA CELULAR
+      ====================================== */}
 
-      {/* FOTO */}
-      <img
-        src="/portada.png"
-        alt="Allison y David"
-        className="absolute inset-0 w-full h-full object-cover object-[center_35%]"
-      />
-
-      {/* Degradado para mejorar lectura */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent"></div>
-
-      {/* Contenido */}
-      <div className="relative z-10 h-full flex flex-col justify-end items-center text-center px-6 pb-24">
-
-        <p className="uppercase tracking-[0.45em] text-white/90 text-sm sm:text-base font-playfair mb-6">
-          Nos Casamos
-        </p>
-
-        <h1
+      <motion.div
+        initial={{
+          opacity: 0,
+          scale: 1.04,
+        }}
+        animate={{
+          opacity: 1,
+          scale: 1,
+        }}
+        transition={{
+          duration: 1.5,
+          ease: "easeOut",
+        }}
+        className="
+          absolute
+          inset-0
+          block
+          md:hidden
+        "
+      >
+        <img
+          src={PORTADA_CELULAR}
+          alt="Boda de Dioselin y Omar - 13 de febrero de 2027"
           className="
-            font-cursiveDancing
-            text-white
-            text-6xl
-            sm:text-7xl
-            md:text-8xl
-            lg:text-[7rem]
-            leading-none
-            drop-shadow-2xl
+            w-full
+            h-full
+            object-cover
+            object-center
           "
-        >
-          Allison & David
-        </h1>
+          loading="eager"
+          fetchPriority="high"
+        />
+      </motion.div>
 
-        <div className="w-24 h-px bg-white/70 my-8"></div>
+      {/* ======================================
+          PORTADA PARA LAPTOP
+      ====================================== */}
 
-        <div
+      <motion.div
+        initial={{
+          opacity: 0,
+          scale: 1.04,
+        }}
+        animate={{
+          opacity: 1,
+          scale: 1,
+        }}
+        transition={{
+          duration: 1.5,
+          ease: "easeOut",
+        }}
+        className="
+          absolute
+          inset-0
+          hidden
+          md:block
+        "
+      >
+        <img
+          src={PORTADA_LAPTOP}
+          alt="Boda de Dioselin y Omar - 13 de febrero de 2027"
           className="
-            px-8
-            py-3
-            rounded-full
-            bg-white/15
-            backdrop-blur-lg
-            border
-            border-white/20
+            w-full
+            h-full
+            object-cover
+            object-center
           "
-        >
-          <p className="font-playfair text-white text-lg sm:text-xl tracking-[0.2em] uppercase">
-            11 · Junio · 2027
-          </p>
-        </div>
-
-      </div>
+          loading="eager"
+          fetchPriority="high"
+        />
+      </motion.div>
     </section>
   );
 }

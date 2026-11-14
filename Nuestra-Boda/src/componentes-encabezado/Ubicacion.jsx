@@ -1,123 +1,646 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import {
+  MapPin,
+  Church,
+  Wine,
+  CalendarDays,
+  Clock3,
+} from "lucide-react";
 
-const Celebracion = ({
-  titulo = "Celebración",
-  fecha = "11 Junio 2026",
-  hora = "4:30 PM",
-  lugar = "Salón Event Center",
-  direccion = "C.5 Pte. 400, Libertad, Heroica Puebla de Zaragoza, Pue.",
-  ubicacion = "https://maps.app.goo.gl/TsSDUBKAractwi8F8",
-}) => {
+// ==========================================
+// INFORMACIÓN EDITABLE - WEDLY
+// ==========================================
+
+const CONFIG = {
+  titulo: "Celebración",
+  subtitulo: "El día de nuestra boda",
+  fecha: "13 de febrero de 2027",
+
+
+  ceremonia: {
+    titulo: "Ceremonia Religiosa",
+    hora: "2:00 p. m.",
+    lugar: "Parroquia de Santa Inés",
+    direccion: "",
+    ubicacion:
+      "https://maps.app.goo.gl/wNqSqHzrS4Xrbyq36",
+  },
+
+  recepcion: {
+    titulo: "Recepción",
+    hora: "3:30 p. m.",
+    lugar: "Los 4 Señoríos",
+    direccion:
+      "Calle Topizco No. 40, Barrio Exquitla, Zacatelco",
+    ubicacion:
+      "https://maps.app.goo.gl/baoCVT2N82NYMqyb9",
+  },
+};
+
+// ==========================================
+// PALETA CHATEAU ROSE
+// ==========================================
+
+const COLORES = {
+  dustyRose: "#D9B5AD",
+  vintageMauve: "#AD898D",
+  englishRose: "#DAB9AD",
+  champagne: "#E8DECE",
+  roseGold: "#C4937E",
+  marfil: "#F8F1EB",
+  texto: "#654A48",
+};
+
+// ==========================================
+// ANIMACIONES
+// ==========================================
+
+const animacion = {
+  oculto: {
+    opacity: 0,
+    y: 30,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.9,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+};
+
+// ==========================================
+// ORNAMENTO CLÁSICO
+// ==========================================
+
+const Ornamento = ({ ancho = "w-16" }) => {
   return (
-    <section className="w-full bg-[#4A141D] px-5 py-20 sm:py-24 overflow-hidden">
-      <motion.div
-        initial={{ opacity: 0, y: 45 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{
-          duration: 0.9,
-          ease: [0.22, 1, 0.36, 1],
+    <div
+      className="
+        flex
+        items-center
+        justify-center
+        gap-3
+      "
+      aria-hidden="true"
+    >
+      <span
+        className={`${ancho} h-px`}
+        style={{
+          backgroundColor: COLORES.roseGold,
         }}
-        viewport={{ once: true }}
-        className="
-          max-w-5xl
-          mx-auto
-          bg-[#F4E8DD]
-          border
-          border-[#B88A8A]/35
-          shadow-[0_25px_70px_rgba(0,0,0,0.25)]
-          rounded-tl-[4rem]
-          rounded-br-[4rem]
-          rounded-tr-2xl
-          rounded-bl-2xl
-          px-6
-          py-14
-          sm:px-12
-          sm:py-16
-          text-center
-        "
+      />
+
+      <span
+        className="text-xl leading-none"
+        style={{
+          color: COLORES.roseGold,
+        }}
       >
-        {/* SUBTÍTULO */}
-        <p className="uppercase tracking-[0.35em] text-[#B88A8A] text-xs sm:text-sm font-semibold mb-4">
-          Día especial
-        </p>
+        ❧
+      </span>
 
-        {/* TÍTULO */}
-        <h2 className="font-playfair text-[#4A141D] text-4xl sm:text-5xl md:text-6xl">
-          {titulo}
-        </h2>
-
-        {/* SEPARADOR */}
-        <div className="w-24 h-px bg-[#B88A8A] mx-auto my-8"></div>
-
-        {/* FECHA Y HORA */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 max-w-2xl mx-auto">
-          <div className="bg-[#4A141D] text-[#F4E8DD] rounded-3xl px-6 py-6 shadow-lg">
-            <p className="text-sm uppercase tracking-[0.2em] text-[#F4E8DD]/70 mb-2">
-              Fecha
-            </p>
-
-            <p className="font-playfair text-2xl sm:text-3xl">
-              {fecha}
-            </p>
-          </div>
-
-          <div className="bg-[#4A141D] text-[#F4E8DD] rounded-3xl px-6 py-6 shadow-lg">
-            <p className="text-sm uppercase tracking-[0.2em] text-[#F4E8DD]/70 mb-2">
-              Hora
-            </p>
-
-            <p className="font-playfair text-2xl sm:text-3xl">
-              {hora}
-            </p>
-          </div>
-        </div>
-
-        {/* UBICACIÓN */}
-        <div className="mt-10 max-w-2xl mx-auto">
-          <p className="font-cursiveDancing text-[#B88A8A] text-4xl mb-3">
-            Ubicación
-          </p>
-
-          <h3 className="font-playfair text-[#4A141D] text-2xl sm:text-3xl mb-4">
-            {lugar}
-          </h3>
-
-          <p className="text-[#4A141D]/75 text-base sm:text-lg leading-relaxed">
-            {direccion}
-          </p>
-        </div>
-
-        {/* BOTÓN GOOGLE MAPS */}
-        <a
-          href={ubicacion}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="
-            inline-block
-            mt-10
-            bg-[#4A141D]
-            text-[#F4E8DD]
-            px-9
-            py-4
-            rounded-full
-            font-playfair
-            text-base
-            sm:text-lg
-            tracking-wide
-            shadow-[0_15px_35px_rgba(74,20,29,0.28)]
-            hover:bg-[#6B1F2A]
-            hover:scale-105
-            transition
-            duration-300
-          "
-        >
-          Ver ubicación
-        </a>
-      </motion.div>
-    </section>
+      <span
+        className={`${ancho} h-px`}
+        style={{
+          backgroundColor: COLORES.roseGold,
+        }}
+      />
+    </div>
   );
 };
 
-export default Celebracion;
+// ==========================================
+// BLOQUE DE UBICACIÓN
+// ==========================================
+
+const BloqueUbicacion = ({
+  datos,
+  tipo = "ceremonia",
+}) => {
+  const esCeremonia = tipo === "ceremonia";
+
+  const Icono = esCeremonia ? Church : Wine;
+
+  return (
+    <motion.div
+      variants={animacion}
+      className="
+        relative
+        flex
+        flex-col
+        items-center
+        text-center
+        w-full
+        h-full
+        px-3
+        sm:px-6
+      "
+    >
+      {/* ICONO PRINCIPAL */}
+
+      <div
+        className="
+          mb-6
+          flex
+          items-center
+          justify-center
+          h-16
+          w-16
+          rounded-full
+          border
+        "
+        style={{
+          borderColor: COLORES.roseGold,
+          backgroundColor: "rgba(217,181,173,0.12)",
+        }}
+      >
+        <Icono
+          size={29}
+          strokeWidth={1.2}
+          style={{
+            color: COLORES.texto,
+          }}
+        />
+      </div>
+
+      {/* TÍTULO */}
+
+      <h3
+        className="
+          font-playfair
+          text-2xl
+          sm:text-3xl
+          leading-relaxed
+        "
+        style={{
+          color: COLORES.texto,
+        }}
+      >
+        {datos.titulo}
+      </h3>
+
+      {/* SEPARADOR */}
+
+      <div className="my-5">
+        <Ornamento ancho="w-10" />
+      </div>
+
+      {/* HORA */}
+
+      <div
+        className="
+          flex
+          items-center
+          justify-center
+          gap-3
+          mb-6
+        "
+      >
+        <Clock3
+          size={19}
+          strokeWidth={1.3}
+          style={{
+            color: COLORES.roseGold,
+          }}
+        />
+
+        <span
+          className="
+            font-playfair
+            text-2xl
+            sm:text-3xl
+          "
+          style={{
+            color: COLORES.texto,
+          }}
+        >
+          {datos.hora}
+        </span>
+      </div>
+
+      {/* LUGAR */}
+
+      <h4
+        className="
+          font-playfair
+          text-xl
+          sm:text-2xl
+          font-medium
+          leading-relaxed
+        "
+        style={{
+          color: COLORES.texto,
+        }}
+      >
+        {datos.lugar}
+      </h4>
+
+      {/* DIRECCIÓN */}
+
+      {datos.direccion && (
+        <p
+          className="
+            mt-4
+            max-w-sm
+            font-playfair
+            text-sm
+            sm:text-base
+            leading-relaxed
+          "
+          style={{
+            color: COLORES.texto,
+            opacity: 0.85,
+          }}
+        >
+          {datos.direccion}
+        </p>
+      )}
+
+      {/* BOTÓN GOOGLE MAPS */}
+
+      <div className="mt-auto pt-9">
+        <motion.a
+          href={datos.ubicacion}
+          target="_blank"
+          rel="noopener noreferrer"
+          whileHover={{
+            scale: 1.04,
+            y: -2,
+          }}
+          whileTap={{
+            scale: 0.98,
+          }}
+          className="
+            inline-flex
+            items-center
+            justify-center
+            gap-3
+            rounded-full
+            px-7
+            py-3.5
+            font-playfair
+            text-xs
+            sm:text-sm
+            uppercase
+            tracking-[0.12em]
+            shadow-sm
+            transition-colors
+            duration-300
+            hover:brightness-95
+          "
+          style={{
+            backgroundColor: COLORES.vintageMauve,
+            color: COLORES.marfil,
+          }}
+        >
+          <MapPin
+            size={17}
+            strokeWidth={1.7}
+          />
+
+          Ver ubicación
+        </motion.a>
+      </div>
+    </motion.div>
+  );
+};
+
+// ==========================================
+// COMPONENTE PRINCIPAL
+// ==========================================
+
+export default function Celebracion() {
+  return (
+    <section
+      id="celebracion"
+      className="
+        relative
+        w-full
+        overflow-hidden
+        px-4
+        py-20
+        sm:px-8
+        sm:py-28
+        lg:py-32
+      "
+      style={{
+        backgroundColor: COLORES.champagne,
+      }}
+    >
+      {/* ======================================
+          MARCO CLÁSICO EXTERIOR
+      ====================================== */}
+
+      <div
+        className="
+          pointer-events-none
+          absolute
+          inset-3
+          sm:inset-6
+          rounded-tl-[35px]
+          rounded-br-[35px]
+          border
+        "
+        style={{
+          borderColor: COLORES.roseGold,
+          opacity: 0.65,
+        }}
+      />
+
+      {/* ======================================
+          DECORACIONES DE FONDO
+      ====================================== */}
+
+      <div
+        className="
+          pointer-events-none
+          absolute
+          -top-28
+          -left-28
+          h-72
+          w-72
+          rounded-full
+        "
+        style={{
+          backgroundColor: COLORES.englishRose,
+          opacity: 0.15,
+        }}
+      />
+
+      <div
+        className="
+          pointer-events-none
+          absolute
+          -bottom-28
+          -right-28
+          h-72
+          w-72
+          rounded-full
+        "
+        style={{
+          backgroundColor: COLORES.dustyRose,
+          opacity: 0.18,
+        }}
+      />
+
+      {/* ======================================
+          CONTENIDO PRINCIPAL
+      ====================================== */}
+
+      <div
+        className="
+          relative
+          z-10
+          mx-auto
+          max-w-6xl
+        "
+      >
+        {/* ======================================
+            ENCABEZADO
+        ====================================== */}
+
+        <motion.div
+          initial={{
+            opacity: 0,
+            y: 30,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{
+            once: true,
+            amount: 0.2,
+          }}
+          transition={{
+            duration: 0.9,
+          }}
+          className="
+            text-center
+            mb-14
+            sm:mb-20
+          "
+        >
+          {/* ORNAMENTO */}
+
+          <Ornamento ancho="w-16" />
+
+          {/* SUBTÍTULO */}
+
+          <p
+            className="
+              mt-7
+              font-playfair
+              uppercase
+              tracking-[0.25em]
+              sm:tracking-[0.35em]
+              text-[11px]
+              sm:text-sm
+            "
+            style={{
+              color: COLORES.vintageMauve,
+            }}
+          >
+            {CONFIG.subtitulo}
+          </p>
+
+          {/* TÍTULO */}
+
+          <h2
+            className="
+              mt-5
+              font-playfair
+              uppercase
+              tracking-[0.14em]
+              sm:tracking-[0.22em]
+              text-3xl
+              sm:text-4xl
+              lg:text-5xl
+            "
+            style={{
+              color: COLORES.texto,
+            }}
+          >
+            {CONFIG.titulo}
+          </h2>
+
+          {/* SEPARADOR */}
+
+          <div className="mt-6">
+            <Ornamento ancho="w-12" />
+          </div>
+
+          {/* DESCRIPCIÓN */}
+
+          <p
+            className="
+              mx-auto
+              mt-8
+              max-w-2xl
+              font-playfair
+              text-base
+              sm:text-lg
+              leading-relaxed
+            "
+            style={{
+              color: COLORES.texto,
+            }}
+          >
+            {CONFIG.descripcion}
+          </p>
+
+          {/* FECHA */}
+
+          <div
+            className="
+              mt-9
+              flex
+              items-center
+              justify-center
+              gap-3
+            "
+          >
+            <CalendarDays
+              size={22}
+              strokeWidth={1.3}
+              style={{
+                color: COLORES.roseGold,
+              }}
+            />
+
+            <p
+              className="
+                font-playfair
+                text-lg
+                sm:text-2xl
+                uppercase
+                tracking-[0.08em]
+              "
+              style={{
+                color: COLORES.texto,
+              }}
+            >
+              {CONFIG.fecha}
+            </p>
+          </div>
+        </motion.div>
+
+        {/* ======================================
+            CEREMONIA Y RECEPCIÓN
+        ====================================== */}
+
+        <motion.div
+          initial="oculto"
+          whileInView="visible"
+          viewport={{
+            once: true,
+            amount: 0.12,
+          }}
+          transition={{
+            staggerChildren: 0.2,
+          }}
+          className="
+            relative
+            grid
+            grid-cols-1
+            md:grid-cols-2
+            gap-16
+            md:gap-10
+            lg:gap-16
+            items-stretch
+          "
+        >
+          {/* DIVISIÓN VERTICAL LAPTOP */}
+
+          <div
+            className="
+              hidden
+              md:block
+              absolute
+              left-1/2
+              top-4
+              bottom-4
+              w-px
+              -translate-x-1/2
+            "
+            style={{
+              backgroundColor: COLORES.roseGold,
+              opacity: 0.6,
+            }}
+          />
+
+          {/* CEREMONIA */}
+
+          <BloqueUbicacion
+            datos={CONFIG.ceremonia}
+            tipo="ceremonia"
+          />
+
+          {/* SEPARADOR CELULAR */}
+
+          <div
+            className="
+              md:hidden
+              flex
+              justify-center
+            "
+          >
+            <Ornamento ancho="w-16" />
+          </div>
+
+          {/* RECEPCIÓN */}
+
+          <BloqueUbicacion
+            datos={CONFIG.recepcion}
+            tipo="recepcion"
+          />
+        </motion.div>
+
+        {/* ======================================
+            ORNAMENTO INFERIOR
+        ====================================== */}
+
+        <motion.div
+          initial={{
+            opacity: 0,
+          }}
+          whileInView={{
+            opacity: 1,
+          }}
+          viewport={{
+            once: true,
+          }}
+          transition={{
+            duration: 1,
+            delay: 0.3,
+          }}
+          className="
+            mt-16
+            sm:mt-20
+            text-center
+          "
+        >
+          <Ornamento ancho="w-20" />
+
+          <p
+            className="
+              mt-6
+              font-cursiveDancing
+              text-3xl
+              sm:text-4xl
+            "
+            style={{
+              color: COLORES.vintageMauve,
+            }}
+          >
+            ¡Te esperamos!
+          </p>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
