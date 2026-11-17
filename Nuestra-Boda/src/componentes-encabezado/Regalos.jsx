@@ -43,7 +43,7 @@ const CONFIG = {
     clabe: "012839015044371981",
 
     // NOMBRE PROVISIONAL - CAMBIAR
-    titular: "María González López",
+    titular: "Omar Najera Bautista",
   },
 
   fraseFinal:
