@@ -7,6 +7,7 @@ import {
   Heart,
   Music2,
   Flower2,
+  Cake,
 } from "lucide-react";
 
 // ==========================================
@@ -33,13 +34,18 @@ const eventos = [
   },
   {
     titulo: "Comida",
-    hora: "3:30 p. m. – 7:00 p. m.",
+    hora: "3:30 p. m. – 6:30 p. m.",
     icono: UtensilsCrossed,
   },
   {
     titulo: "Nuestro Baile",
-    hora: "7:00 p. m. – 8:00 p. m.",
+    hora: "6:30 p. m. – 7:30 p. m.",
     icono: Heart,
+  },
+  {
+    titulo: "Pastel",
+    hora: "7:30 p. m. – 8:00 p. m.",
+    icono: Cake,
   },
   {
     titulo: "Fiesta Baile",

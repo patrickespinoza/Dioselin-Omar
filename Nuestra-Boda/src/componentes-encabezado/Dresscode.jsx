@@ -18,7 +18,23 @@ const CONFIG = {
   tituloDamas: "Para las damas",
 
   mensajeDamas:
-    "Agradecemos reservar los colores demasiado claros para la novia.",
+    "Agradecemos reservar los siguientes colores para la novia.",
+
+  // COLORES RESERVADOS PARA LA NOVIA
+  coloresReservados: [
+    {
+      nombre: "Ivory",
+      color: "#FFFFF0",
+    },
+    {
+      nombre: "Champagne",
+      color: "#E8D4B0",
+    },
+    {
+      nombre: "Gold",
+      color: "#D4AF37",
+    },
+  ],
 };
 
 // ==========================================
@@ -338,6 +354,7 @@ export default function Vestimenta() {
             flex-col
             items-center
             text-center
+            w-full
           "
         >
           <h3
@@ -370,6 +387,90 @@ export default function Vestimenta() {
           >
             {CONFIG.mensajeDamas}
           </p>
+
+          {/* ==================================
+              COLORES RESERVADOS
+          ================================== */}
+
+          <div
+            className="
+              mt-10
+              flex
+              flex-wrap
+              items-start
+              justify-center
+              gap-5
+              sm:gap-10
+              w-full
+            "
+          >
+            {CONFIG.coloresReservados.map(
+              (item, index) => (
+                <motion.div
+                  key={item.nombre}
+                  initial={{
+                    opacity: 0,
+                    y: 20,
+                    scale: 0.9,
+                  }}
+                  whileInView={{
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                  }}
+                  viewport={{ once: true }}
+                  transition={{
+                    duration: 0.6,
+                    delay: index * 0.12,
+                  }}
+                  className="
+                    flex
+                    flex-col
+                    items-center
+                    gap-4
+                  "
+                >
+                  {/* CÍRCULO DEL COLOR */}
+
+                  <div
+                    className="
+                      w-20
+                      h-20
+                      sm:w-24
+                      sm:h-24
+                      rounded-full
+                      border-2
+                      shadow-[0_5px_15px_rgba(101,74,72,0.12)]
+                    "
+                    style={{
+                      backgroundColor:
+                        item.color,
+                      borderColor:
+                        COLORES.roseGold,
+                    }}
+                    role="img"
+                    aria-label={`Color reservado: ${item.nombre}`}
+                  />
+
+                  {/* NOMBRE DEL COLOR */}
+
+                  <p
+                    className="
+                      font-playfair
+                      text-sm
+                      sm:text-base
+                      tracking-[0.04em]
+                    "
+                    style={{
+                      color: COLORES.texto,
+                    }}
+                  >
+                    {item.nombre}
+                  </p>
+                </motion.div>
+              )
+            )}
+          </div>
         </motion.div>
 
         {/* ======================================
